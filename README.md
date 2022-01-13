@@ -1,7 +1,7 @@
 # Fourier Transform
 An interesting algorithm which converts samples into complex coefficients, and 
 vice versa. One of the applications of this would be to decompose a signal, such as 
-audio, into its frequencies, allowing for signal processing, such as sound editing.
+audio, into its frequencies, allowing for signal processing, such as sound editing.<
 
 The base form is
 
@@ -15,7 +15,7 @@ called for the creation of the DFT, the Discrete Fourier Transform:
 <!--F(k) = \sum_{j=0}^{N-1} f_k e^{-2\pi ijk/N}-->
 ![img_1.png](img_1.png)
 
-This isn't great in terms of the time complexity to transform a whole data set, O(N^2)
+This isn't great in terms of the time complexity to transform a whole data set, O(N^2).
 In this project I've decided to go with the standard implementation of the FFT,
 Fast Fourier Transform, algorithm: The Cooley-Tukey Radix 2 FFT, 
 which has a time complexity of O(N log(N)). It is a recursive algorithm,
