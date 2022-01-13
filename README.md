@@ -1,7 +1,7 @@
 # Fourier Transform
 An interesting algorithm which converts samples into complex coefficients, and 
 vice versa. One of the applications of this would be to decompose a signal, such as 
-audio, into its frequencies, allowing for signal processing, such as sound editing.<
+audio, into its frequencies, allowing for signal processing, such as sound editing.
 
 The base form is
 
