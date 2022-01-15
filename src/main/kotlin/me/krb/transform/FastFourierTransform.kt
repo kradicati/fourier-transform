@@ -39,6 +39,10 @@ class FastFourierTransform : FourierTransform {
             .toTypedArray()
     }
 
+    fun getFrequency(k: Double, n: Int, f: Double): Double {
+         return k * f / n;
+    }
+
     override fun computeInverse(x: Array<Complex>): Array<Complex> {
         TODO("Not yet implemented")
     }
