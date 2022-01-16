@@ -1,15 +1,11 @@
 package me.krb.transform
 
 import org.apache.commons.math3.complex.Complex
-import org.apache.commons.math3.transform.DftNormalization
-import org.apache.commons.math3.transform.FastFourierTransformer
-import org.apache.commons.math3.transform.TransformType
 import org.apache.commons.math3.util.MathUtils
 import org.junit.jupiter.api.Test
 import org.knowm.xchart.QuickChart
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.XYChart
-import java.io.File
 import kotlin.math.*
 
 class FastFourierTransformTest {
@@ -31,26 +27,35 @@ class FastFourierTransformTest {
         var t = 0.0
 
         while (t < max) {
-            dataPoints.add(Complex(sin(MathUtils.TWO_PI * freq * t)))
+            val f1 = cos(MathUtils.TWO_PI * freq * t)
+            val f2 = 0.5 * cos(MathUtils.TWO_PI * 2 * t)
+            val f3 = 3 * cos(MathUtils.TWO_PI * 110 * t)
+            val f4 = cos(MathUtils.TWO_PI * 3000 * t)
+            val f5 = 1.5 * cos(MathUtils.TWO_PI * 7000 * t)
+
+            dataPoints.add(Complex(f1 + f2 + f3 + f4 + f5))
 
             t += period
         }
 
-        //File("sinwave.txt").writeText(dataPoints.map { cpx -> cpx.real }.toDoubleArray().contentToString())
-
         val fft = FastFourierTransform()
-        //val fft = FastFourierTransformer(DftNormalization.STANDARD);
 
         val start = System.currentTimeMillis()
+
         val transformed = fft.compute(dataPoints.toTypedArray())
-        //val transformed = fft.transform(dataPoints.toTypedArray(), TransformType.FORWARD)
+
         println("Transform took " + (System.currentTimeMillis() - start) + " ms")
 
-        val xData: DoubleArray = transformed.mapIndexed { idx, _ -> idx.toDouble() }.toDoubleArray()
-        val yData: DoubleArray = transformed.map { complex -> complex.real }.toDoubleArray()
+        val xTransformData: DoubleArray = transformed.mapIndexed { idx, _ -> idx.toDouble() }.toDoubleArray()
+        val yTransformData: DoubleArray = transformed.map { complex -> sqrt(complex.real.pow(2) + complex.imaginary.pow(2)) }.toDoubleArray()
 
-        val chart: XYChart = QuickChart.getChart("Sample Chart", "Frequency", "Real part", "fhat(x)", xData, yData)
-        SwingWrapper(chart).displayChart()
+        val charts = ArrayList<XYChart>()
+
+        val transformChart: XYChart = QuickChart.getChart("Transformed", "Frequency", "Real part", "fhat(x)", xTransformData, yTransformData)
+
+        charts.add(transformChart)
+
+        SwingWrapper(charts).displayChart()
 
         Thread.sleep(10000000)
     }
